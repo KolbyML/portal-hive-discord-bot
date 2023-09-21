@@ -4,6 +4,7 @@ from discord import app_commands
 from discord.ext import commands
 import datetime
 import util
+import os
 
 announcement_time = datetime.time(hour=23, tzinfo=datetime.timezone.utc)
 
@@ -88,5 +89,4 @@ class MyClient(discord.Client):
 intents = discord.Intents.default()
 intents.message_content = True
 client = MyClient(intents=intents)
-
-client.run('MTE1MDUzNzI2MTcyOTk4ODcwOQ.GgOIlO.lypuY2ATcW9K1sO4HICZ3Vse0XTtvU2sra8Ago')
+client.run(os.environ["PORTAL-INTEGRATION-BOT"])
