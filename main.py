@@ -6,7 +6,7 @@ import datetime
 import util
 import os
 
-announcement_time = datetime.time(hour=23, tzinfo=datetime.timezone.utc)
+announcement_time = datetime.time(hour=2, minute=30, tzinfo=datetime.timezone.utc)
 
 
 class MyClient(discord.Client):
@@ -89,4 +89,4 @@ class MyClient(discord.Client):
 intents = discord.Intents.default()
 intents.message_content = True
 client = MyClient(intents=intents)
-client.run(os.environ["PORTAL-INTEGRATION-BOT"])
+client.run(os.environ["PORTALINTEGRATIONBOTTOKEN"])
