@@ -38,8 +38,8 @@ class MyClient(discord.Client):
 
                 yesterday_vs_today_pass_string = ""
                 for k in util.get_today_vs_yesterday_portal_hive_test_data():
-                    yesterday_vs_today_pass_string += "``" + k["name"] + "``: " + k["yesterday_percent"] + " -> " + k[
-                        "today_percent"] + "\n"
+                    yesterday_vs_today_pass_string += "``" + k["name"] + "``: " + str(k["yesterday_percent"]) + " -> " + str(k[
+                        "today_percent"]) + "\n"
 
                 embed.add_field(name="Yesterday vs Today pass percentages", value=yesterday_vs_today_pass_string)
 

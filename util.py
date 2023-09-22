@@ -45,7 +45,7 @@ def get_today_vs_yesterday_portal_hive_test_data():
         if i["name"] in [value.get('name') for value in return_data]:
             for k in return_data:
                 if i["name"] == k["name"]:
-                    k["today_percent"] = i["passes"] / i["ntests"]
+                    k["today_percent"] = '{:.2%}'.format(i["passes"] / i["ntests"])
         else:
             return_data.append({"name": i["name"], "today_percent": '{:.2%}'.format(i["passes"] / i["ntests"]),
                                 "yesterday_percent": "Didn't run"})
@@ -53,7 +53,7 @@ def get_today_vs_yesterday_portal_hive_test_data():
         if i["name"] in [value.get('name') for value in return_data]:
             for k in return_data:
                 if i["name"] == k["name"]:
-                    k["yesterday_percent"] = i["passes"] / i["ntests"]
+                    k["yesterday_percent"] = '{:.2%}'.format(i["passes"] / i["ntests"])
         else:
             return_data.append({"name": i["name"], "today_percent": "Didn't run",
                                 "yesterday_percent": '{:.2%}'.format(i["passes"] / i["ntests"])})
@@ -62,4 +62,3 @@ def get_today_vs_yesterday_portal_hive_test_data():
     # for i in todays_data_overview:
     #     response = requests.get('https://portal-hive.ethdevops.io/results/' + str(i["fileName"]))
     #     data = json.loads(response.text)
-
