@@ -45,18 +45,32 @@ def get_today_vs_yesterday_portal_hive_test_data():
         if i["name"] in [value.get('name') for value in return_data]:
             for k in return_data:
                 if i["name"] == k["name"]:
+                    k["tp"] = i["passes"] / i["ntests"]
                     k["today_percent"] = '{:.2%}'.format(i["passes"] / i["ntests"])
         else:
-            return_data.append({"name": i["name"], "today_percent": '{:.2%}'.format(i["passes"] / i["ntests"]),
-                                "yesterday_percent": "Didn't run"})
+            return_data.append({"name": i["name"], "today_percent": '{:.2%}'.format(i["passes"] / i["ntests"]), "tp": i["passes"] / i["ntests"],
+                                "yesterday_percent": "Didn't run", "emoji": ":zombie:"})
     for i in yesterdays_data_overview:
         if i["name"] in [value.get('name') for value in return_data]:
             for k in return_data:
                 if i["name"] == k["name"]:
+                    k["yp"] = i["passes"] / i["ntests"]
                     k["yesterday_percent"] = '{:.2%}'.format(i["passes"] / i["ntests"])
         else:
             return_data.append({"name": i["name"], "today_percent": "Didn't run",
-                                "yesterday_percent": '{:.2%}'.format(i["passes"] / i["ntests"])})
+                                "yesterday_percent": '{:.2%}'.format(i["passes"] / i["ntests"]), "yp": i["passes"] / i["ntests"], "emoji": ":zombie:"})
+
+    for i in return_data:
+        if i["today_percent"] != "Didn't run" and i["yesterday_percent"] != "Didn't run":
+            if i["tp"] > i["yp"]:
+                i["emoji"] = ":chart_with_upwards_trend:"
+            elif i["tp"] < i["yp"]:
+                i["emoji"] = ":chart_with_downwards_trend:"
+            else:
+                i["emoji"] = ":infinity:"
+        if int(i["tp"]) == 1:
+            i["emoji"] = ":rocket:"
+
     return return_data
 
     # for i in todays_data_overview:

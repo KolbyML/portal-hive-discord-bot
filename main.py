@@ -32,18 +32,13 @@ class MyClient(discord.Client):
             try:
                 channel = self.get_channel(i)
 
-                embed = discord.Embed(title="Portal Hive Daily Results",
-                                      url="https://portal-hive.ethdevops.io/",
-                                      color=0X33fffc)
+                message = "[**Portal Hive Daily Results**](<https://portal-hive.ethdevops.io/>)\n"
 
-                yesterday_vs_today_pass_string = ""
                 for k in util.get_today_vs_yesterday_portal_hive_test_data():
-                    yesterday_vs_today_pass_string += "``" + k["name"] + "``: " + str(k["yesterday_percent"]) + " -> " + str(k[
-                        "today_percent"]) + "\n"
+                    message += "- ``" + k["name"] + "``: " + str(k["yesterday_percent"]) + " -> " + str(k[
+                        "today_percent"]) + " " + k["emoji"] + "\n"
 
-                embed.add_field(name="Yesterday vs Today pass percentages", value=yesterday_vs_today_pass_string)
-
-                await channel.send(embed=embed)
+                await channel.send(message)
             except Exception as e:
                 print("failed to send message in channel " + str(i) + "::", e)
 
