@@ -28,16 +28,21 @@ class MyClient(discord.Client):
 
     @tasks.loop(time=announcement_time)  # task runs every 60 seconds
     async def my_background_task(self):
+        try:
+            message = "[**Portal Hive Daily Results**](<https://portal-hive.ethdevops.io/>)\n"
+
+            for k in util.get_today_vs_yesterday_portal_hive_test_data():
+                message += "- ``" + k["name"] + "``: " + str(k["yesterday_percent"]) + " -> " + str(k[
+                                                                                                        "today_percent"]) + " " + \
+                           k["emoji"] + "\n"
+
+        except Exception as e:
+            print("failed to generate message" + "::", e)
+            return
+
         for i in self.state["channels"]:
             try:
                 channel = self.get_channel(i)
-
-                message = "[**Portal Hive Daily Results**](<https://portal-hive.ethdevops.io/>)\n"
-
-                for k in util.get_today_vs_yesterday_portal_hive_test_data():
-                    message += "- ``" + k["name"] + "``: " + str(k["yesterday_percent"]) + " -> " + str(k[
-                        "today_percent"]) + " " + k["emoji"] + "\n"
-
                 await channel.send(message)
             except Exception as e:
                 print("failed to send message in channel " + str(i) + "::", e)
