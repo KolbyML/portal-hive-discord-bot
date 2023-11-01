@@ -37,7 +37,7 @@ class MyClient(discord.Client):
                            k["emoji"] + "\n"
 
         except Exception as e:
-            print("failed to generate message" + "::", e)
+            print("failed to generate message" + "::", e, "message:", message)
             return
 
         for i in self.state["channels"]:
@@ -45,7 +45,7 @@ class MyClient(discord.Client):
                 channel = self.get_channel(i)
                 await channel.send(message)
             except Exception as e:
-                print("failed to send message in channel " + str(i) + "::", e)
+                print("failed to send message in channel " + str(i) + "::", e, "message:", message)
 
     @my_background_task.before_loop
     async def before_my_task(self):
@@ -84,7 +84,6 @@ class MyClient(discord.Client):
                     await message.channel.send('Failed to remove channel to Portal Hive Status Updates')
                 util.save_state(self.state)
                 return
-
 
 intents = discord.Intents.default()
 intents.message_content = True
