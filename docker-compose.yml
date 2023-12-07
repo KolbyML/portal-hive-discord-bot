@@ -8,6 +8,6 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      PORTALINTEGRATIONBOTTOKEN: 123abc
+      PORTALINTEGRATIONBOTTOKEN: ${PORTALINTEGRATIONBOTTOKEN?Discord Bot Token Required}
     network_mode: "host"
     restart: always
