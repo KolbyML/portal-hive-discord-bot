@@ -28,17 +28,16 @@ class MyClient(discord.Client):
 
     @tasks.loop(time=announcement_time)  # task runs every 60 seconds
     async def my_background_task(self):
+        message = "[**Portal Hive Daily Results**](<https://portal-hive.ethdevops.io/>)\n"
+
         try:
-            message = "[**Portal Hive Daily Results**](<https://portal-hive.ethdevops.io/>)\n"
-
-            for k in util.get_today_vs_yesterday_portal_hive_test_data():
-                message += "- ``" + k["name"] + "``: " + str(k["yesterday_percent"]) + " -> " + str(k[
-                                                                                                        "today_percent"]) + " " + \
-                           k["emoji"] + "\n"
-
+            test_data = util.get_today_vs_yesterday_portal_hive_test_data()
+            for k in test_data:
+                message += "- ``" + k["name"] + "``: " + str(k["yesterday_percent"]) + " -> " + str(k["today_percent"]) + " " + k["emoji"] + "\n"
         except Exception as e:
-            print("failed to generate message" + "::", e, "message:", message)
-            return
+            message += "failed to today vs yesterday ::" + str(e.__traceback__) if e.__traceback__ is not None else "no trace avaliable"
+            print("failed to today vs yesterday" + "::", e.__traceback__, "message:", message)
+
 
         for i in self.state["channels"]:
             try:
@@ -89,3 +88,4 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = MyClient(intents=intents)
 client.run(os.environ["PORTALINTEGRATIONBOTTOKEN"])
+

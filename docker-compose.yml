@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  portal-integrations-bot:
+    image: ghcr.io/kolbyml/portal-integrations-bot:latest
+    pull_policy: always
+    container_name: portal-integrations-bot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PORTALINTEGRATIONBOTTOKEN: 123abc
+    network_mode: "host"
+    restart: always

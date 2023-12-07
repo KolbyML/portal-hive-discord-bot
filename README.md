@@ -1,1 +1,1 @@
-# portal-hive-discord-bot
+# Portal Network Integrations Bot

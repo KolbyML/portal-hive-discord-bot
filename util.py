@@ -68,7 +68,7 @@ def get_today_vs_yesterday_portal_hive_test_data():
                 i["emoji"] = ":chart_with_downwards_trend:"
             else:
                 i["emoji"] = ":infinity:"
-        if int(i["tp"]) == 1:
+        if i["today_percent"] != "Didn't run" and int(i["tp"]) == 1:
             i["emoji"] = ":rocket:"
 
     return return_data
