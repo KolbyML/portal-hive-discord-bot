@@ -11,8 +11,9 @@ def load_state():
         file.close()
         return data
     except:
-        return {"admins": [240180844130598912, 425615769280315392, 439193900096290816],
-                "channels": []}
+        return {"admins": [240180844130598912, 425615769280315392, 439193900096290816, 843971820994822184],
+                "glados_channels": [],
+                "hive_channels": []}
 
 
 def save_state(state):
@@ -73,6 +74,6 @@ def get_today_vs_yesterday_portal_hive_test_data():
 
     return return_data
 
-    # for i in todays_data_overview:
-    #     response = requests.get('https://portal-hive.ethdevops.io/results/' + str(i["fileName"]))
-    #     data = json.loads(response.text)
+def get_glados_hourly_success_rate():
+    response = requests.get('https://glados.ethdevops.io/api/hourly-success-rate/')
+    return float(response.text)
