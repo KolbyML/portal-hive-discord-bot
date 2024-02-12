@@ -114,9 +114,9 @@ class MyClient(discord.Client):
                 channel = message.channel.id
                 try:
                     self.state["hive_channels"].remove(channel)
-                    await message.channel.send('Removed channel to Glados Status Updates')
+                    await message.channel.send('Removed channel to Portal Hive Status Updates')
                 except:
-                    await message.channel.send('Failed to remove channel to Glados Status Updates')
+                    await message.channel.send('Failed to remove channel to Portal Hive Status Updates')
                 util.save_state(self.state)
                 return
             
