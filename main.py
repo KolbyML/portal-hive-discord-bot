@@ -96,9 +96,13 @@ class MyClient(discord.Client):
                                   url="",
                                   color=0X33fffc)
             embed.add_field(name=self.prefix + 'sub-hive',
-                            value="Subscribes channel this command is ran in to get a daily message of stats")
+                            value="This command subscribes this channel to daily Portal Hive Stats")
             embed.add_field(name=self.prefix + 'unsub-hive',
-                            value="Un-subscribes channel this command is ran in to get a daily message of stats")
+                            value="This un-command subscribes this channel to daily Portal Hive Stats")
+            embed.add_field(name=self.prefix + 'sub-glados',
+                            value="This command subscribes this channel to daily Glados Stats")
+            embed.add_field(name=self.prefix + 'unsub-glados',
+                            value="This un-command subscribes this channel to daily Glados Stats")            
 
             await message.channel.send(embed=embed)
             return
@@ -114,9 +118,9 @@ class MyClient(discord.Client):
                 channel = message.channel.id
                 try:
                     self.state["hive_channels"].remove(channel)
-                    await message.channel.send('Removed channel to Portal Hive Status Updates')
+                    await message.channel.send('Removed channel from Portal Hive Status Updates')
                 except:
-                    await message.channel.send('Failed to remove channel to Portal Hive Status Updates')
+                    await message.channel.send('Failed to remove channel from Portal Hive Status Updates')
                 util.save_state(self.state)
                 return
             
@@ -130,9 +134,9 @@ class MyClient(discord.Client):
                 channel = message.channel.id
                 try:
                     self.state["glados_channels"].remove(channel)
-                    await message.channel.send('Removed channel to Glados Status Updates')
+                    await message.channel.send('Removed channel from Glados Status Updates')
                 except:
-                    await message.channel.send('Failed to remove channel to Glados Status Updates')
+                    await message.channel.send('Failed to remove channel from Glados Status Updates')
                 util.save_state(self.state)
                 return
 
