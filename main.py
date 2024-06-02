@@ -10,6 +10,21 @@ import os
 portal_hive_time = datetime.time(hour=2, minute=30, tzinfo=datetime.timezone.utc)
 glados_update_time = datetime.time(hour=14, minute=00, tzinfo=datetime.timezone.utc)
 
+def hive_failure_alert_message():
+    message = "[**Portal Hive Failure Alert**](<https://portal-hive.ethdevops.io/>)\n"
+
+    try:
+        test_data = util.get_todays_zeros()
+        if len(test_data) == 0:
+            return
+        for k in test_data:
+            message += "- ``" + k["name"] + "``: " + str(k["today_percent"]) + " " + k["emoji"] + "\n"
+    except Exception as e:
+        traceback_str = ''.join(traceback.format_exception(None, e, e.__traceback__))
+        print("failed to today failure alert" + "::", traceback_str)
+
+    return message
+
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -31,16 +46,7 @@ class MyClient(discord.Client):
 
     @tasks.loop(time=portal_hive_time)  # task runs at 2:30 UTC
     async def portal_hive(self):
-        message = "[**Portal Hive Daily Results**](<https://portal-hive.ethdevops.io/>)\n"
-
-        try:
-            test_data = util.get_today_vs_yesterday_portal_hive_test_data()
-            for k in test_data:
-                message += "- ``" + k["name"] + "``: " + str(k["yesterday_percent"]) + " -> " + str(k["today_percent"]) + " " + k["emoji"] + "\n"
-        except Exception as e:
-            traceback_str = ''.join(traceback.format_exception(None, e, e.__traceback__))
-            print("failed to today vs yesterday" + "::", traceback_str)
-
+        message = hive_failure_alert_message()
         await self.send_message(message, "hive_channels")
 
     @tasks.loop(minutes=5.0)
@@ -122,6 +128,11 @@ class MyClient(discord.Client):
                 except:
                     await message.channel.send('Failed to remove channel from Portal Hive Status Updates')
                 util.save_state(self.state)
+                return
+            if message.content == self.prefix + 'test-hive':
+                channel = message.channel
+                message = hive_failure_alert_message()
+                await channel.send(message)
                 return
             
             if message.content == self.prefix + 'sub-glados':
