@@ -16,14 +16,14 @@ def hive_failure_alert_message():
     try:
         test_data = util.get_todays_zeros()
         if len(test_data) == 0:
-            return
+            return "", 0
         for k in test_data:
             message += "- ``" + k["name"] + "``: " + str(k["today_percent"]) + " " + k["emoji"] + "\n"
     except Exception as e:
         traceback_str = ''.join(traceback.format_exception(None, e, e.__traceback__))
         print("failed to today failure alert" + "::", traceback_str)
 
-    return message
+    return message, len(test_data)
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -46,7 +46,9 @@ class MyClient(discord.Client):
 
     @tasks.loop(time=portal_hive_time)  # task runs at 2:30 UTC
     async def portal_hive(self):
-        message = hive_failure_alert_message()
+        message, count = hive_failure_alert_message()
+        if count == 0:
+            return
         await self.send_message(message, "hive_channels")
 
     @tasks.loop(minutes=5.0)
@@ -131,7 +133,7 @@ class MyClient(discord.Client):
                 return
             if message.content == self.prefix + 'test-hive':
                 channel = message.channel
-                message = hive_failure_alert_message()
+                message, count = hive_failure_alert_message()
                 await channel.send(message)
                 return
             
