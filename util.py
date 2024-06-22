@@ -42,7 +42,7 @@ def get_todays_zeros():
         if i["name"] not in [value.get('name') for value in return_data] and i["passes"] != i["ntests"]:
             return_data.append({"name": i["name"], "today_percent": '{:.2%}'.format(i["passes"] / i["ntests"]), "tp": i["passes"] / i["ntests"],
                                 "emoji": ":chart_with_downwards_trend:"})
-    return return_data, len(return_data)
+    return return_data
 
 def get_glados_hourly_success_rate():
     response = requests.get('https://glados.ethdevops.io/api/hourly-success-rate/')
