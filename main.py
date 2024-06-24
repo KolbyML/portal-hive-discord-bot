@@ -134,7 +134,7 @@ class MyClient(discord.Client):
             if message.content == self.prefix + 'test-hive':
                 channel = message.channel
                 message, count = hive_failure_alert_message()
-                await channel.send(message)
+                await channel.send(message + "count: " + str(count))
                 return
             
             if message.content == self.prefix + 'sub-glados':
